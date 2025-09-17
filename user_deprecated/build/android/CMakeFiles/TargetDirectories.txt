@@ -1,0 +1,5 @@
+/Users/chennan/fridaproject/KernelPatch/user_deprecated/build/android/CMakeFiles/kp.dir
+/Users/chennan/fridaproject/KernelPatch/user_deprecated/build/android/CMakeFiles/kpatch.dir
+/Users/chennan/fridaproject/KernelPatch/user_deprecated/build/android/CMakeFiles/apjni.dir
+/Users/chennan/fridaproject/KernelPatch/user_deprecated/build/android/CMakeFiles/edit_cache.dir
+/Users/chennan/fridaproject/KernelPatch/user_deprecated/build/android/CMakeFiles/rebuild_cache.dir

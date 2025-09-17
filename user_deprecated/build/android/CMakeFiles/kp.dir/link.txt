@@ -1,0 +1,2 @@
+/Users/chennan/Library/Android/sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc libkp.a CMakeFiles/kp.dir/kpatch.c.o CMakeFiles/kp.dir/kpm.c.o CMakeFiles/kp.dir/su.c.o CMakeFiles/kp.dir/android/android_user.c.o CMakeFiles/kp.dir/android/sumgr.c.o
+/Users/chennan/Library/Android/sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib libkp.a
