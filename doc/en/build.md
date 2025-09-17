@@ -49,7 +49,7 @@ make
 - Using CMake
 
 ```shell
-cd user
+cd user_deprecated
 mkdir build
 cd build
 cmake ..
@@ -61,7 +61,7 @@ make
 ```shell
 export ANDROID_NDK=/path/to/ndk
 export ANDROID=1
-cd user
+cd user_deprecated
 mkdir -p build/android && cd build/android
 cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
     -DCMAKE_BUILD_TYPE=Release \
