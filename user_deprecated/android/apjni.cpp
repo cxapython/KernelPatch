@@ -248,7 +248,7 @@ extern "C" JNIEXPORT jlong JNICALL Java_me_bmax_apatch_Natives_nativeGrantSu(JNI
     profile.uid = uid;
     profile.to_uid = to_uid;
     if (sctx) strncpy(profile.scontext, sctx, sizeof(profile.scontext) - 1);
-    long rc = sc_su_grant_uid(skey, uid, &profile);
+    long rc = sc_su_grant_uid(skey, &profile);
     env->ReleaseStringUTFChars(superKey, skey);
     env->ReleaseStringUTFChars(scontext, sctx);
     return rc;

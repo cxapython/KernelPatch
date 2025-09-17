@@ -29,9 +29,11 @@ struct allow_pkg_info
     const char sctx[SUPERCALL_SCONTEXT_LEN];
 };
 
-static char magiskpolicy_path[] = AP_BIN_DIR "magiskpolicy";
-static char pkg_cfg_path[] = AP_DIR "package_config";
-static char su_path_path[] = AP_DIR "su_path";
+static char magiskpolicy_path[] = "/data/adb/magisk/busybox" "magiskpolicy";
+static char pkg_cfg_path[] = "/data/adb/modules/KernelPatch/etc/" "package_config";
+static char su_path_path[] = "/data/adb/modules/KernelPatch/etc/" "su_path";
+
+#define PATCH_LOG_FOLDER "/data/adb/modules/KernelPatch/log/"
 
 extern const char *key;
 static bool from_kernel = false;
@@ -123,7 +125,7 @@ static void load_config_allow_uids()
         profile.to_uid = to_uid;
         if (ssctx) strncpy(profile.scontext, ssctx, sizeof(profile.scontext) - 1);
 
-        sc_su_grant_uid(key, profile.uid, &profile);
+        sc_su_grant_uid(key, &profile);
 
         free(spkg);
         free(suid);
@@ -214,11 +216,11 @@ static void early_init()
 
     log_kernel("%d starting android user early-init\n", getpid());
 
-    save_dmegs(EARLY_INIT_LOG_0);
+    save_dmegs("/data/adb/modules/KernelPatch/log/early_init_0.dmesg.log");
 
     // todo:
 
-    save_dmegs(EARLY_INIT_LOG_1);
+    save_dmegs("/data/adb/modules/KernelPatch/log/early_init_1.dmesg.log");
 }
 
 static void post_fs_data_init()
@@ -231,19 +233,19 @@ static void post_fs_data_init()
 
     log_kernel("%d starting android user post-fs-data-init, exec: %s\n", getpid(), current_exe);
 
-    if (!strcmp(current_exe, KPATCH_DEV_PATH)) {
-        char *const args[] = { "/system/bin/cp", "-f", current_exe, KPATCH_DATA_PATH, NULL };
+    if (!strcmp(current_exe, "/dev/kpatch")) {
+        char *const args[] = { "/system/bin/cp", "-f", current_exe, "/data/adb/modules/KernelPatch/kpatch", NULL };
         fork_for_result(args[0], args);
         return;
     }
 
-    if (access(AP_DIR, F_OK)) mkdir(AP_DIR, 0700);
-    if (access(APATCH_LOG_FLODER, F_OK)) mkdir(APATCH_LOG_FLODER, 0700);
+    if (access("/data/adb/modules/KernelPatch/etc/", F_OK)) mkdir("/data/adb/modules/KernelPatch/etc/", 0700);
+    if (access("/data/adb/modules/KernelPatch/log/", F_OK)) mkdir("/data/adb/modules/KernelPatch/log/", 0700);
 
-    char *log_args[] = { "/system/bin/cp", "-f", EARLY_INIT_LOG_0, APATCH_LOG_FLODER, NULL };
+    char *log_args[] = { "/system/bin/cp", "-f", "/data/adb/modules/KernelPatch/log/early_init_0.dmesg.log", "/data/adb/modules/KernelPatch/log/", NULL };
     fork_for_result(log_args[0], log_args);
 
-    log_args[2] = EARLY_INIT_LOG_1;
+    log_args[2] = "/data/adb/modules/KernelPatch/log/early_init_1.dmesg.log";
     fork_for_result(log_args[0], log_args);
 
     char *argv[] = { magiskpolicy_path, "--magisk", "--live", NULL };
@@ -301,11 +303,11 @@ int android_user(int argc, char **argv)
 
         fork_for_result(APD_PATH, apd_argv);
 
-        if (access(APATCH_LOG_FLODER, F_OK)) mkdir(APATCH_LOG_FLODER, 0700);
+        if (access("/data/adb/modules/KernelPatch/log/", F_OK)) mkdir("/data/adb/modules/KernelPatch/log/", 0700);
 
         char log_path[256] = { '\0' };
 
-        sprintf(log_path, APATCH_LOG_FLODER "trigger_%s.dmesg.log", scmd);
+        sprintf(log_path, PATCH_LOG_FOLDER "trigger_%s.dmesg.log", scmd);
         save_dmegs(log_path);
 
     } else {

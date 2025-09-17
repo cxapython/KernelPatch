@@ -35,6 +35,8 @@ enum
 #ifdef ANDROID
 #define DEFAULT_SHELL "/system/bin/sh"
 #define DEFAULT_PATH "/product/bin:/apex/com.android.runtime/bin:/system/bin:/odm/bin:/vendor/bin:/usr/bin"
+#define AP_BIN_DIR ""
+#define ADB_DIR ""
 #define DEFAULT_ROOT_PATH \
     AP_BIN_DIR            \
     ":" ADB_DIR           \
